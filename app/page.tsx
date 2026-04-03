@@ -1,10 +1,25 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="flex-1 flex items-center justify-center bg-[#f8f9fb]">
-      <div className="text-center space-y-6">
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gray-900">
+    <div className="relative flex-1 flex items-center justify-center min-h-screen overflow-hidden">
+      {/* Background Image */}
+      <Image
+        src="/warehouse-bg.jpg"
+        alt=""
+        fill
+        className="object-cover"
+        priority
+        quality={85}
+      />
+
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-black/50" />
+
+      {/* Content */}
+      <div className="relative z-10 text-center space-y-6">
+        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20">
           <svg
             width="24"
             height="24"
@@ -21,23 +36,23 @@ export default function Home() {
           </svg>
         </div>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
-            Inventory
+          <h1 className="text-4xl font-bold text-white tracking-tight drop-shadow-lg">
+            Warehouse
           </h1>
-          <p className="text-gray-500 text-[15px] mt-1">
+          <p className="text-white/70 text-[15px] mt-1.5">
             Stock management system
           </p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-3 justify-center">
           <Link
             href="/dashboard"
-            className="px-5 py-2.5 bg-gray-900 text-white rounded-xl text-[14px] font-medium hover:bg-gray-800 transition-colors shadow-sm"
+            className="px-6 py-2.5 bg-white text-gray-900 rounded-xl text-[14px] font-semibold hover:bg-white/90 transition-colors shadow-lg"
           >
             Dashboard
           </Link>
           <Link
             href="/telegram"
-            className="px-5 py-2.5 bg-white text-gray-700 border border-gray-200 rounded-xl text-[14px] font-medium hover:bg-gray-50 transition-colors shadow-sm"
+            className="px-6 py-2.5 bg-white/10 text-white border border-white/20 backdrop-blur-md rounded-xl text-[14px] font-semibold hover:bg-white/20 transition-colors"
           >
             Scanner
           </Link>
