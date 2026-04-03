@@ -18,11 +18,11 @@ export default function Home() {
       <div className="absolute inset-0 bg-black/50" />
 
       {/* Content */}
-      <div className="relative z-10 text-center space-y-6">
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20">
+      <div className="relative z-10 text-center space-y-8">
+        <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20">
           <svg
-            width="24"
-            height="24"
+            width="36"
+            height="36"
             viewBox="0 0 24 24"
             fill="none"
             stroke="white"
@@ -36,23 +36,23 @@ export default function Home() {
           </svg>
         </div>
         <div>
-          <h1 className="text-4xl font-bold text-white tracking-tight drop-shadow-lg">
+          <h1 className="text-6xl sm:text-7xl font-bold text-white tracking-tight drop-shadow-lg">
             Warehouse
           </h1>
-          <p className="text-white/70 text-[15px] mt-1.5">
+          <p className="text-white/70 text-lg sm:text-xl mt-2">
             Stock management system
           </p>
         </div>
-        <div className="flex gap-3 justify-center">
+        <div className="flex gap-4 justify-center">
           <Link
             href="/dashboard"
-            className="px-6 py-2.5 bg-white text-gray-900 rounded-xl text-[14px] font-semibold hover:bg-white/90 transition-colors shadow-lg"
+            className="px-8 py-3.5 bg-white text-gray-900 rounded-xl text-base font-semibold hover:bg-white/90 transition-colors shadow-lg"
           >
             Dashboard
           </Link>
           <Link
             href="/telegram"
-            className="px-6 py-2.5 bg-white/10 text-white border border-white/20 backdrop-blur-md rounded-xl text-[14px] font-semibold hover:bg-white/20 transition-colors"
+            className="px-8 py-3.5 bg-white/10 text-white border border-white/20 backdrop-blur-md rounded-xl text-base font-semibold hover:bg-white/20 transition-colors"
           >
             Scanner
           </Link>
