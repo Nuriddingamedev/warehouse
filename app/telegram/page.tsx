@@ -1,33 +1,34 @@
 "use client";
 
 import { ScannerCard } from "@/components/scanner-card";
+import { WarehouseIcon } from "@/components/warehouse-icon";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { LocaleSwitcher } from "@/components/locale-switcher";
+import { useSettingsStore } from "@/store/settings";
+import { useT } from "@/lib/i18n";
 
 export default function TelegramPage() {
+  const locale = useSettingsStore((s) => s.locale);
+  const t = useT(locale);
+
   return (
-    <div className="min-h-screen bg-[#f8f9fb] px-4 py-8">
+    <div className="min-h-screen bg-[#f8f9fb] dark:bg-[#0f1117] px-4 py-8">
+      {/* Top controls */}
+      <div className="flex justify-end gap-2 mb-4">
+        <LocaleSwitcher />
+        <ThemeToggle />
+      </div>
+
       {/* Header */}
       <div className="text-center mb-6">
-        <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-gray-900 mb-3">
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="white"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
-            <path d="m3.3 7 8.7 5 8.7-5" />
-            <path d="M12 22V12" />
-          </svg>
+        <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-gray-900 dark:bg-gray-100 mb-3">
+          <WarehouseIcon size={22} className="text-white dark:text-gray-900" />
         </div>
-        <h1 className="text-lg font-semibold text-gray-900">
-          Inventory Scanner
+        <h1 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+          {t("inventoryScanner")}
         </h1>
-        <p className="text-[13px] text-gray-500 mt-0.5">
-          Scan barcode, enter quantity
+        <p className="text-[13px] text-gray-500 dark:text-gray-400 mt-0.5">
+          {t("scanBarcodeEnter")}
         </p>
       </div>
 
