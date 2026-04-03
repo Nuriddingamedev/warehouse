@@ -51,6 +51,8 @@ const translations = {
     save: "Save",
     cancel: "Cancel",
     edit: "Edit",
+    delete: "Delete",
+    confirmDelete: "Delete this product?",
     autoRefresh: "auto-refresh 5s",
     productCount: (n: number) => `${n} product${n !== 1 ? "s" : ""}`,
 
@@ -97,6 +99,8 @@ const translations = {
     save: "Сохр",
     cancel: "Отмена",
     edit: "Ред",
+    delete: "Удалить",
+    confirmDelete: "Удалить этот товар?",
     autoRefresh: "обновление 5с",
     productCount: (n: number) => `${n} товар${n === 1 ? "" : n < 5 ? "а" : "ов"}`,
 
@@ -142,6 +146,8 @@ const translations = {
     save: "Saqlash",
     cancel: "Bekor",
     edit: "Tahrir",
+    delete: "O'chirish",
+    confirmDelete: "Bu mahsulotni o'chirishni xohlaysizmi?",
     autoRefresh: "yangilanish 5s",
     productCount: (n: number) => `${n} ta mahsulot`,
 

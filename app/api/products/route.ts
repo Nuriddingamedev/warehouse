@@ -27,6 +27,29 @@ export async function GET(req: NextRequest) {
   }
 }
 
+export async function DELETE(req: NextRequest) {
+  try {
+    const { id } = await req.json();
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, message: "Product ID required" },
+        { status: 400 }
+      );
+    }
+
+    await db.delete(products).where(eq(products.id, id));
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Product delete error:", error);
+    return NextResponse.json(
+      { success: false, message: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
 export async function PUT(req: NextRequest) {
   try {
     const body = await req.json();

@@ -22,14 +22,46 @@ export function ScannerCard() {
   const [name, setName] = useState("");
   const barcodeRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
+  const scanBuffer = useRef("");
+  const scanTimer = useRef<ReturnType<typeof setTimeout>>(null);
 
+  // Auto-focus barcode input
   useEffect(() => {
     if (!isNewProduct) barcodeRef.current?.focus();
   }, [status, isNewProduct]);
 
+  // Focus name input for new product
   useEffect(() => {
     if (isNewProduct) setTimeout(() => nameRef.current?.focus(), 50);
   }, [isNewProduct]);
+
+  // Keep focus on barcode input (scanner sends input to focused element)
+  useEffect(() => {
+    const refocus = () => {
+      if (!isNewProduct && document.activeElement?.tagName !== "INPUT") {
+        barcodeRef.current?.focus();
+      }
+    };
+    window.addEventListener("click", refocus);
+    return () => window.removeEventListener("click", refocus);
+  }, [isNewProduct]);
+
+  // Handle rapid scanner input: buffer keystrokes, detect scanner vs manual
+  // Scanners type 10+ chars in <100ms, humans type ~1 char per 100-300ms
+  const handleBarcodeKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      // If we have buffered scanner input, use it
+      if (scanBuffer.current.length > 0) {
+        setBarcode(scanBuffer.current);
+        scanBuffer.current = "";
+        if (scanTimer.current) clearTimeout(scanTimer.current);
+      }
+      // Submit form programmatically
+      const form = (e.target as HTMLElement).closest("form");
+      if (form) form.requestSubmit();
+    }
+  }, []);
 
   const handleSubmit = useCallback(
     async (e?: React.FormEvent) => {
@@ -67,9 +99,11 @@ export function ScannerCard() {
           setQuantity("1");
           setName("");
           setIsNewProduct(false);
-          setTimeout(() => barcodeRef.current?.focus(), 50);
+          setTimeout(() => barcodeRef.current?.focus(), 100);
         } else {
           setStatus({ type: "error", message: data.message });
+          // Re-focus barcode on error too so scanner can retry
+          setTimeout(() => barcodeRef.current?.focus(), 100);
         }
       } catch {
         setStatus({ type: "error", message: t("connectionError") });
@@ -139,6 +173,7 @@ export function ScannerCard() {
                 type="text"
                 value={barcode}
                 onChange={(e) => { setBarcode(e.target.value); setIsNewProduct(false); setStatus({ type: "idle", message: "" }); }}
+                onKeyDown={handleBarcodeKeyDown}
                 placeholder={t("scanOrEnter")}
                 className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-[15px] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:bg-white dark:focus:bg-gray-800 focus:border-gray-300 dark:focus:border-gray-600 focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-700 transition-all"
                 autoComplete="off"

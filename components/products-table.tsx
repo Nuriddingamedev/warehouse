@@ -55,6 +55,18 @@ export function ProductsTable() {
     } catch { /* keep edit open */ }
   };
 
+  const deleteProduct = async (id: string) => {
+    if (!confirm(t("confirmDelete"))) return;
+    try {
+      const res = await fetch("/api/products", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      if (res.ok) { setEditingId(null); fetchProducts(); }
+    } catch { /* silent */ }
+  };
+
   const cancelEdit = () => setEditingId(null);
 
   const lowCount = products.filter((p) => p.stock <= p.minStock).length;
@@ -167,6 +179,7 @@ export function ProductsTable() {
                         {isEditing ? (
                           <div className="flex items-center justify-end gap-1.5">
                             <button onClick={() => saveEdit(product.id)} className="px-2.5 py-1.5 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-[12px] font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">{t("save")}</button>
+                            <button onClick={() => deleteProduct(product.id)} className="px-2.5 py-1.5 bg-red-500 text-white text-[12px] font-medium rounded-lg hover:bg-red-600 transition-colors">{t("delete")}</button>
                             <button onClick={cancelEdit} className="px-2.5 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-[12px] font-medium rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">{t("cancel")}</button>
                           </div>
                         ) : (
