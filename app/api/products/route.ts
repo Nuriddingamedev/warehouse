@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { products } from "@/lib/schema";
+import { products, stockMovements } from "@/lib/schema";
 import { eq, ilike, or, desc } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -38,6 +38,8 @@ export async function DELETE(req: NextRequest) {
       );
     }
 
+    // Delete movements first (foreign key), then product
+    await db.delete(stockMovements).where(eq(stockMovements.productId, id));
     await db.delete(products).where(eq(products.id, id));
 
     return NextResponse.json({ success: true });
