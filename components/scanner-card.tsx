@@ -159,7 +159,7 @@ export function ScannerCard() {
         <form onSubmit={handleSubmit} className="p-5 space-y-4">
           {/* Barcode */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+            <label htmlFor="barcode" className="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
               {t("barcode")}
             </label>
             <div className="relative">
@@ -169,6 +169,8 @@ export function ScannerCard() {
                 </svg>
               </div>
               <input
+                id="barcode"
+                name="barcode"
                 ref={barcodeRef}
                 type="text"
                 value={barcode}
@@ -184,10 +186,12 @@ export function ScannerCard() {
 
           {/* Quantity */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+            <label htmlFor="quantity" className="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
               {t("quantity")}
             </label>
             <input
+              id="quantity"
+              name="quantity"
               type="number"
               value={quantity}
               onChange={(e) => { const val = e.target.value; if (val === "" || Number(val) >= 0) setQuantity(val); }}
@@ -201,10 +205,12 @@ export function ScannerCard() {
           {/* New Product Name */}
           {isNewProduct && isIn && (
             <div className="space-y-1.5">
-              <label className="block text-xs font-medium text-amber-600 dark:text-amber-400 uppercase tracking-wider">
+              <label htmlFor="productName" className="block text-xs font-medium text-amber-600 dark:text-amber-400 uppercase tracking-wider">
                 {t("newProduct")}
               </label>
               <input
+                id="productName"
+                name="productName"
                 ref={nameRef}
                 type="text"
                 value={name}
