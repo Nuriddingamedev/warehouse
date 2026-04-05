@@ -4,6 +4,7 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { useInventoryStore } from "@/store/inventory";
 import { useSettingsStore } from "@/store/settings";
 import { useT } from "@/lib/i18n";
+import { BarcodeScanner } from "./barcode-scanner";
 
 export function ScannerCard() {
   const {
@@ -20,6 +21,7 @@ export function ScannerCard() {
   const [barcode, setBarcode] = useState("");
   const [quantity, setQuantity] = useState("1");
   const [name, setName] = useState("");
+  const [showCamera, setShowCamera] = useState(false);
   const barcodeRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const scanBuffer = useRef("");
@@ -177,10 +179,22 @@ export function ScannerCard() {
                 onChange={(e) => { setBarcode(e.target.value); setIsNewProduct(false); setStatus({ type: "idle", message: "" }); }}
                 onKeyDown={handleBarcodeKeyDown}
                 placeholder={t("scanOrEnter")}
-                className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-[15px] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:bg-white dark:focus:bg-gray-800 focus:border-gray-300 dark:focus:border-gray-600 focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-700 transition-all"
+                className="w-full pl-10 pr-12 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-[15px] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:bg-white dark:focus:bg-gray-800 focus:border-gray-300 dark:focus:border-gray-600 focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-700 transition-all"
                 autoComplete="off"
                 disabled={loading}
               />
+              {/* Camera scan button */}
+              <button
+                type="button"
+                onClick={() => setShowCamera(true)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 active:scale-95 transition-all"
+                title={t("scanWithCamera")}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z" />
+                  <circle cx="12" cy="13" r="3" />
+                </svg>
+              </button>
             </div>
           </div>
 
@@ -271,6 +285,19 @@ export function ScannerCard() {
       >
         {t("clearForm")}
       </button>
+
+      {/* Camera scanner modal */}
+      {showCamera && (
+        <BarcodeScanner
+          onScan={(code) => {
+            setBarcode(code);
+            setShowCamera(false);
+            setIsNewProduct(false);
+            setStatus({ type: "idle", message: "" });
+          }}
+          onClose={() => setShowCamera(false)}
+        />
+      )}
     </div>
   );
 }

@@ -56,6 +56,10 @@ const translations = {
     autoRefresh: "auto-refresh 5s",
     productCount: (n: number) => `${n} product${n !== 1 ? "s" : ""}`,
 
+    // Camera
+    scanWithCamera: "Scan with camera",
+    pointAtBarcode: "Point camera at barcode",
+
     // History
     history: "History",
     totalInQty: "Total In",
@@ -116,6 +120,9 @@ const translations = {
     autoRefresh: "обновление 5с",
     productCount: (n: number) => `${n} товар${n === 1 ? "" : n < 5 ? "а" : "ов"}`,
 
+    scanWithCamera: "Сканировать камерой",
+    pointAtBarcode: "Наведите камеру на штрихкод",
+
     history: "История",
     totalInQty: "Всего приход",
     totalOutQty: "Всего расход",
@@ -173,6 +180,9 @@ const translations = {
     confirmDelete: "Bu mahsulotni o'chirishni xohlaysizmi?",
     autoRefresh: "yangilanish 5s",
     productCount: (n: number) => `${n} ta mahsulot`,
+
+    scanWithCamera: "Kamera bilan skanerlash",
+    pointAtBarcode: "Kamerani shtrixkodga yo'naltiring",
 
     history: "Tarix",
     totalInQty: "Jami kirim",
