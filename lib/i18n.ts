@@ -56,6 +56,18 @@ const translations = {
     autoRefresh: "auto-refresh 5s",
     productCount: (n: number) => `${n} product${n !== 1 ? "s" : ""}`,
 
+    // History
+    history: "History",
+    totalInQty: "Total In",
+    totalOutQty: "Total Out",
+    inCount: "In Ops",
+    outCount: "Out Ops",
+    type: "Type",
+    product: "Product",
+    date: "Date",
+    noHistory: "No movements yet",
+    movementCount: (n: number) => `${n} movement${n !== 1 ? "s" : ""}`,
+
     // Theme
     lightMode: "Light",
     darkMode: "Dark",
@@ -104,6 +116,17 @@ const translations = {
     autoRefresh: "обновление 5с",
     productCount: (n: number) => `${n} товар${n === 1 ? "" : n < 5 ? "а" : "ов"}`,
 
+    history: "История",
+    totalInQty: "Всего приход",
+    totalOutQty: "Всего расход",
+    inCount: "Приходов",
+    outCount: "Расходов",
+    type: "Тип",
+    product: "Товар",
+    date: "Дата",
+    noHistory: "Нет движений",
+    movementCount: (n: number) => `${n} движени${n === 1 ? "е" : n < 5 ? "я" : "й"}`,
+
     lightMode: "Светлая",
     darkMode: "Тёмная",
   },
@@ -150,6 +173,17 @@ const translations = {
     confirmDelete: "Bu mahsulotni o'chirishni xohlaysizmi?",
     autoRefresh: "yangilanish 5s",
     productCount: (n: number) => `${n} ta mahsulot`,
+
+    history: "Tarix",
+    totalInQty: "Jami kirim",
+    totalOutQty: "Jami chiqim",
+    inCount: "Kirimlar",
+    outCount: "Chiqimlar",
+    type: "Turi",
+    product: "Mahsulot",
+    date: "Sana",
+    noHistory: "Harakatlar yo'q",
+    movementCount: (n: number) => `${n} ta harakat`,
 
     lightMode: "Yorug'",
     darkMode: "Qorong'i",

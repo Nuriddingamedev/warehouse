@@ -7,13 +7,19 @@ import { useSettingsStore } from "@/store/settings";
 import { useT } from "@/lib/i18n";
 
 interface NavbarProps {
-  activeTab: "products" | "scanner";
-  onTabChange: (tab: "products" | "scanner") => void;
+  activeTab: "products" | "scanner" | "history";
+  onTabChange: (tab: "products" | "scanner" | "history") => void;
 }
 
 export function Navbar({ activeTab, onTabChange }: NavbarProps) {
   const locale = useSettingsStore((s) => s.locale);
   const t = useT(locale);
+
+  const tabs = [
+    { key: "products" as const, label: t("products") },
+    { key: "scanner" as const, label: t("scanner") },
+    { key: "history" as const, label: t("history") },
+  ];
 
   return (
     <header className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200/60 dark:border-gray-800/60">
@@ -32,26 +38,19 @@ export function Navbar({ activeTab, onTabChange }: NavbarProps) {
         <div className="flex items-center gap-2">
           {/* Tabs */}
           <nav className="flex items-center bg-gray-100/80 dark:bg-gray-800/80 rounded-lg p-0.5">
-            <button
-              onClick={() => onTabChange("products")}
-              className={`px-3.5 py-1.5 rounded-md text-[13px] font-medium transition-all duration-200 ${
-                activeTab === "products"
-                  ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm"
-                  : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-              }`}
-            >
-              {t("products")}
-            </button>
-            <button
-              onClick={() => onTabChange("scanner")}
-              className={`px-3.5 py-1.5 rounded-md text-[13px] font-medium transition-all duration-200 ${
-                activeTab === "scanner"
-                  ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm"
-                  : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-              }`}
-            >
-              {t("scanner")}
-            </button>
+            {tabs.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => onTabChange(tab.key)}
+                className={`px-3.5 py-1.5 rounded-md text-[13px] font-medium transition-all duration-200 ${
+                  activeTab === tab.key
+                    ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm"
+                    : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
           </nav>
 
           <LocaleSwitcher />
