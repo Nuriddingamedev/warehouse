@@ -55,32 +55,75 @@ export function HistoryTable() {
     });
   };
 
-  const cardClass = "bg-white dark:bg-gray-900 rounded-xl border border-gray-200/80 dark:border-gray-800 shadow-sm";
+  const cardClass = "bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/80 dark:border-gray-800 shadow-sm";
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4">
       {/* Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className={`${cardClass} px-4 py-3`}>
-          <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{t("totalInQty")}</p>
-          <p className="text-2xl font-semibold text-emerald-600 dark:text-emerald-400 mt-0.5">{stats.totalIn.toLocaleString()}</p>
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3">
+        <div className={`${cardClass} px-3 sm:px-4 py-3`}>
+          <p className="text-[10px] sm:text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{t("totalInQty")}</p>
+          <p className="text-xl sm:text-2xl font-semibold text-emerald-600 dark:text-emerald-400 mt-0.5">{stats.totalIn.toLocaleString()}</p>
         </div>
-        <div className={`${cardClass} px-4 py-3`}>
-          <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{t("totalOutQty")}</p>
-          <p className="text-2xl font-semibold text-red-600 dark:text-red-400 mt-0.5">{stats.totalOut.toLocaleString()}</p>
+        <div className={`${cardClass} px-3 sm:px-4 py-3`}>
+          <p className="text-[10px] sm:text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{t("totalOutQty")}</p>
+          <p className="text-xl sm:text-2xl font-semibold text-red-600 dark:text-red-400 mt-0.5">{stats.totalOut.toLocaleString()}</p>
         </div>
-        <div className={`${cardClass} px-4 py-3`}>
-          <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{t("inCount")}</p>
-          <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mt-0.5">{stats.countIn}</p>
+        <div className={`${cardClass} px-3 sm:px-4 py-3`}>
+          <p className="text-[10px] sm:text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{t("inCount")}</p>
+          <p className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-gray-100 mt-0.5">{stats.countIn}</p>
         </div>
-        <div className={`${cardClass} px-4 py-3`}>
-          <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{t("outCount")}</p>
-          <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mt-0.5">{stats.countOut}</p>
+        <div className={`${cardClass} px-3 sm:px-4 py-3`}>
+          <p className="text-[10px] sm:text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{t("outCount")}</p>
+          <p className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-gray-100 mt-0.5">{stats.countOut}</p>
         </div>
       </div>
 
-      {/* Table */}
-      <div className={`${cardClass} overflow-hidden`}>
+      {/* Mobile card list */}
+      <div className="sm:hidden space-y-2">
+        {loading ? (
+          <div className={`${cardClass} px-4 py-12 text-center`}>
+            <div className="flex items-center justify-center gap-2 text-gray-400 text-sm">
+              <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>
+              {t("loading")}
+            </div>
+          </div>
+        ) : movements.length === 0 ? (
+          <div className={`${cardClass} px-4 py-12 text-center text-gray-400 dark:text-gray-500 text-sm`}>
+            {t("noHistory")}
+          </div>
+        ) : movements.map((m) => (
+          <div key={m.id} className={`${cardClass} px-4 py-3`}>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className={`shrink-0 w-8 h-8 rounded-xl flex items-center justify-center ${
+                  m.type === "IN"
+                    ? "bg-emerald-50 dark:bg-emerald-900/20"
+                    : "bg-red-50 dark:bg-red-900/20"
+                }`}>
+                  {m.type === "IN" ? (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-600 dark:text-emerald-400"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+                  ) : (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-red-600 dark:text-red-400"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+                  )}
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[14px] font-semibold text-gray-900 dark:text-gray-100 truncate">{m.productName}</p>
+                  <p className="text-[11px] text-gray-400 dark:text-gray-500">{formatDate(m.createdAt)}</p>
+                </div>
+              </div>
+              <span className={`text-lg font-bold tabular-nums pl-3 ${
+                m.type === "IN" ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"
+              }`}>
+                {m.type === "IN" ? "+" : "-"}{m.quantity}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop table */}
+      <div className={`hidden sm:block ${cardClass} overflow-hidden`}>
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead>
@@ -94,56 +137,22 @@ export function HistoryTable() {
             </thead>
             <tbody className="divide-y divide-gray-50 dark:divide-gray-800/50">
               {loading ? (
-                <tr>
-                  <td colSpan={5} className="px-4 py-12 text-center">
-                    <div className="flex items-center justify-center gap-2 text-gray-400 dark:text-gray-500 text-sm">
-                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                      </svg>
-                      {t("loading")}
-                    </div>
-                  </td>
-                </tr>
+                <tr><td colSpan={5} className="px-4 py-12 text-center"><div className="flex items-center justify-center gap-2 text-gray-400 dark:text-gray-500 text-sm"><svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>{t("loading")}</div></td></tr>
               ) : movements.length === 0 ? (
-                <tr>
-                  <td colSpan={5} className="px-4 py-12 text-center text-gray-400 dark:text-gray-500 text-sm">
-                    {t("noHistory")}
-                  </td>
+                <tr><td colSpan={5} className="px-4 py-12 text-center text-gray-400 dark:text-gray-500 text-sm">{t("noHistory")}</td></tr>
+              ) : movements.map((m) => (
+                <tr key={m.id} className="hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition-colors">
+                  <td className="px-4 py-3">{m.type === "IN" ? (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>IN</span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-800"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>OUT</span>
+                  )}</td>
+                  <td className="px-4 py-3"><span className="text-[14px] font-medium text-gray-900 dark:text-gray-100">{m.productName}</span></td>
+                  <td className="px-4 py-3"><span className="text-[13px] text-gray-500 dark:text-gray-400 font-mono">{m.productBarcode}</span></td>
+                  <td className="px-4 py-3 text-right"><span className={`text-[15px] font-semibold tabular-nums ${m.type === "IN" ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"}`}>{m.type === "IN" ? "+" : "-"}{m.quantity}</span></td>
+                  <td className="px-4 py-3 text-right"><span className="text-[13px] text-gray-400 dark:text-gray-500">{formatDate(m.createdAt)}</span></td>
                 </tr>
-              ) : (
-                movements.map((m) => (
-                  <tr key={m.id} className="hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition-colors">
-                    <td className="px-4 py-3">
-                      {m.type === "IN" ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800">
-                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
-                          IN
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-800">
-                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
-                          OUT
-                        </span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className="text-[14px] font-medium text-gray-900 dark:text-gray-100">{m.productName}</span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className="text-[13px] text-gray-500 dark:text-gray-400 font-mono">{m.productBarcode}</span>
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <span className={`text-[15px] font-semibold tabular-nums ${m.type === "IN" ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"}`}>
-                        {m.type === "IN" ? "+" : "-"}{m.quantity}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <span className="text-[13px] text-gray-400 dark:text-gray-500">{formatDate(m.createdAt)}</span>
-                    </td>
-                  </tr>
-                ))
-              )}
+              ))}
             </tbody>
           </table>
         </div>

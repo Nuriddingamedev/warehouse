@@ -13,7 +13,7 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-[#f8f9fb] dark:bg-[#0f1117]">
       <Navbar activeTab={tab} onTabChange={setTab} />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-6 pb-24 sm:pb-6">
         {tab === "products" && <ProductsTable />}
         {tab === "scanner" && <ScannerCard />}
         {tab === "history" && <HistoryTable />}
